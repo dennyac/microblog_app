@@ -7,6 +7,7 @@ class UsersController < ApplicationController
   def new
   	@title_app = "Sign up"
   	@user = User.new
+    #@user.password_digest = "dummy"
   end
 
   def create
@@ -15,6 +16,7 @@ class UsersController < ApplicationController
     	flash[:success] = "Welcome to the Sample App!"
       redirect_to @user
     else
+      @title_app = "Sign up"
       render 'new'
     end
   end
