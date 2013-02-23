@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_filter :signed_in_user, only: [:index, :edit, :update]
+  before_filter :signed_in_user, only: [:index, :edit, :update, :following, :followers]
   before_filter :correct_user,   only: [:edit, :update]
   before_filter :admin_user,     only: :destroy
 
@@ -60,6 +60,20 @@ class UsersController < ApplicationController
     #else
     #  redirect_to root_path
     #end
+  end
+
+  def following
+    @title_app = "Following"
+    @user = User.find(params[:id])
+    @users = @user.followed_users.paginate(page: params[:page])
+    render 'show_follow' #Why isn't show_follow not treated as a partial, and is explicit render required because following is a user defined action??
+  end
+
+  def followers
+    @title_app = "Followers"
+    @user = User.find(params[:id])
+    @users = @user.followers.paginate(page: params[:page])
+    render 'show_follow' #Why isn't show_follow not treated as a partial, and is explicit render required because following is a user defined action??
   end  
 
   private
